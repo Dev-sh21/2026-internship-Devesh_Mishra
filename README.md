@@ -8,6 +8,7 @@ This repository tracks my developer internship at JdeRobot.
 * **Organization:** JdeRobot
 * **Project:** RoboticsAcademy
 * **Duration:** 6 months (June 29, 2026 - December 29, 2026)
+* **Progress Blog:** [https://theroboticsclub.github.io/2026-internship-Devesh_Mishra/](https://theroboticsclub.github.io/2026-internship-Devesh_Mishra/)
 
 ### Project Scope
 
