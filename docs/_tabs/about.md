@@ -4,11 +4,6 @@ icon: fas fa-info-circle
 order: 4
 ---
 
+Hi, I am Devesh Mishra, a developer intern at JdeRobot.
 
-Hi, I'm Sarvesh, a Google Summer of Code (GSoC) 2026 contributor.
-
-**VisualCircuit Improving Functionality and Block Library**
-
-This blog is where I’ll be documenting my weekly progress, thoughts, blockers, and takeaways throughout the summer. The goal of my project is to improve functionality and the block library in VisualCircuit.
-
-Feel free to follow along as I share updates each week. 🚀
+This blog tracks my weekly progress, blockers, and updates during my 6-month developer internship at JdeRobot. My work focuses on the successful deployment of RoboticsAcademy on macOS systems and introducing solutions based on the Nav2 framework from OpenNavigation.
