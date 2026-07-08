@@ -18,7 +18,3 @@ JdeRobot is an international open-source organization in the fields of Robotics 
 1. RoboticsAcademy
 2. Tools for robot programming
 3. AI driven Robotics
-
-### Invitation Letter
-
-![Internship Invitation](docs/assets/img/posts/internship_offer.png)
