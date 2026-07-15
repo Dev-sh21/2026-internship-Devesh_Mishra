@@ -22,7 +22,7 @@ sudo apt install -y ros-humble-ros-gz-sim ros-humble-ros-gz-interfaces ros-humbl
 gz topic -e -t /lidar
 ```
 
-![Method 1 - Package Installation & Lidar Topics](/assets/img/week2/method2.png)
+![Method 1 - Package Installation & Lidar Topics]({{ site.baseurl }}/assets/img/week2/method2.png)
 
 ---
 
@@ -37,7 +37,7 @@ source install/setup.zsh
 ruby $(which gz) sim -g
 ```
 
-![Method 2 - Source Build Working](/assets/img/week2/method3.png)
+![Method 2 - Source Build Working]({{ site.baseurl }}/assets/img/week2/method3.png)
 
 ---
 
@@ -52,4 +52,4 @@ source /opt/ros/humble/setup.bash
 ign gazebo /home/ubuntu/laser_world.sdf
 ```
 
-![Method 3 - Ubuntu VNC Docker Container Working](/assets/img/week2/ubuntu_vnc.png)
+![Method 3 - Ubuntu VNC Docker Container Working]({{ site.baseurl }}/assets/img/week2/ubuntu_vnc.png)

@@ -29,7 +29,7 @@ To understand why the simulation layout failed to render, I set up XQuartz on ma
 ## 3. Repository Alignment and React Compilation
 I synchronized the local repository files to match the latest development release on GitHub to ensure consistent API communication. Additionally, I resolved a webpack conflict where duplicate package instances caused errors in the browser, and compiled the updated front-end assets. The Follow Line exercise is now loading successfully.
 
-![Follow Line Working](../docs/assets/img/posts/follow_line_working.png)
+![Follow Line Working](/docs/assets/img/posts/follow_line_working.png)
 
 ---
 

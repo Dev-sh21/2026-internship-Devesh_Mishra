@@ -15,7 +15,7 @@ The first and most straightforward method was installing Gazebo directly on the 
 **Working:**
 After installation, I launched Gazebo and echoed the `/lidar` sensor topic in the terminal. As seen in the screenshot, real-time lidar range coordinates were successfully published over the ROS 2 network.
 
-![Method 1 - Package Installation & Lidar Topics](../docs/assets/img/week2/method1.png)
+![Method 1 - Package Installation & Lidar Topics](/docs/assets/img/week2/method2.png)
 
 ### Method 2: Local Source Build (colcon workspace)
 The second method involved compiling Gazebo directly from its source code. 
@@ -26,7 +26,7 @@ Normally, when we install software (like Method 1), we download pre-compiled "bi
 **Working:**
 I created a dedicated `colcon` workspace, downloaded the source repositories, and compiled them. After building, I sourced the local setup files and successfully launched the Gazebo GUI from our custom build.
 
-![Method 2 - Source Build Working](../docs/assets/img/week2/method2.png)
+![Method 2 - Source Build Working](/docs/assets/img/week2/method3.png)
 
 ### Method 3: Ubuntu VNC Docker Container 
 The third method utilized a Dockerized Ubuntu container pre-configured with ROS 2 Humble and a VNC server. This approach completely isolates the simulation environment and allows us to view the Gazebo graphical interface through a web browser.
@@ -34,7 +34,7 @@ The third method utilized a Dockerized Ubuntu container pre-configured with ROS 
 **Working:**
 Inside the container, I sourced the ROS 2 workspace, launched Gazebo, and spawned our custom robot. The visual interface was perfectly accessible via the browser.
 
-![Method 3 - Ubuntu VNC Docker Container Working](../docs/assets/img/week2/ubuntu_vnc.png)
+![Method 3 - Ubuntu VNC Docker Container Working](/docs/assets/img/week2/ubuntu_vnc.png)
 
 ---
 
