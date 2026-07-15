@@ -6,56 +6,39 @@ tags: [internship, progress, week-2, gazebo, ros2]
 published: true
 ---
 
-This week's primary focus was advancing the simulation backend for the Robotics Academy. I was tasked with installing Gazebo from both package and source, implementing a custom robot (`f1` holonomic camera), and successfully integrating it into our web-based ecosystem.
+This week, my main task was to install and configure the Gazebo simulator using three different methods, and to verify the setup by running a custom robot simulation.
 
 ---
 
-## Main Goals for the Week
-- Install Gazebo from binary packages (ROS 2 Humble).
-- Install Gazebo from source for deeper integration.
-- Implement the custom `f1` robot into the simulation.
-- Debug and resolve major backend stability issues.
+## Method 1: Install Gazebo from Binary Packages
+For the first setup, I installed Gazebo via the standard package manager using official ROS 2 Humble packages. This is the simplest and most stable method for quick deployments.
+
+```bash
+sudo apt update
+sudo apt install -y ros-humble-ros-gz-sim ros-humble-ros-gz-interfaces ros-humble-ros-gz-bridge
+```
+
+![Method 1 - Package Installation](/assets/img/week2/method1.png)
 
 ---
 
-## 1. Gazebo Installation and Custom Robot Setup
-I successfully set up Gazebo using both package (`ros-humble-ros-gz-sim`) and source (`colcon build`) installations. 
-Following the installation, I integrated the custom `f1` robot by creating a new `f1.launch.py` file, linking it to the `simple_circuit.world`, and configuring the camera sensors.
+## Method 2: Install Gazebo from Source
+For the second setup, I compiled Gazebo directly from source. I set up a colcon workspace, imported the repositories, and built them manually. This method is crucial when custom modifications to the simulator are required.
 
-![Gazebo Terminal Setup](/assets/img/week2/media__1784120950328.png)
+```bash
+colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release
+```
 
----
-
-## 2. Resolving Backend Deadlocks
-During the integration with the Robotics Application Manager (RAM), I encountered severe, silent process hangs. The `subprocess.Popen` calls were deadlocking due to Python's internal `fork()` implementation crashing when paired with `start_new_session=True`. I successfully diagnosed this and resolved it by migrating the execution flow to use the native Linux `setsid -w` utility.
+![Method 2 - Source Build](/assets/img/week2/method2.png)
 
 ---
 
-## 3. Fixing Xorg Socket Crashes
-Another significant roadblock was the Robotics Academy web interface getting permanently stuck on the "loading" screen. I dug into the backend logs and discovered that Gazebo's headless physics engine was failing to spawn the robot because its dummy `Xorg` display server crashed instantly on startup. 
+## Method 3: Running Simulation on Custom Robot
+Finally, I tested both installation environments by running the simulation using a custom robot package (`laser_robot`). I launched the robot inside a custom arena with obstacle physics enabled and verified topic publisher/subscriber communication in ROS 2.
 
-The root cause was a stale `/tmp/.X11-unix/X0` lock file left behind by previous incomplete shutdowns. I wrote a pre-launch cleanup script to purge these locks before `Xorg` initializes, completely resolving the infinite loading loops.
+```bash
+source /opt/ros/humble/setup.bash
+ign gazebo /home/ubuntu/laser_world.sdf
+```
 
----
-
-## 4. Container Persistence
-Since the web UI dynamically recreates the Docker container every time an exercise launches, any hot-fixes I applied inside the container were instantly wiped. I updated the `docker-compose.yaml` to securely mount the host `RoboticsApplicationManager` source code into the container and explicitly configured the `PYTHONPATH`. This guarantees that all system-level patches are fully persistent.
-
----
-
-## Screenshots of the Week
-
-Here are a few other images captured during the debugging and setup processes:
-
-![Screenshot 1](/assets/img/week2/media__1784092197249.png)
-![Screenshot 2](/assets/img/week2/media__1784094399796.png)
-![Screenshot 3](/assets/img/week2/media__1784096843821.png)
-![Screenshot 4](/assets/img/week2/media__1784116608671.png)
-![Screenshot 5](/assets/img/week2/media__1784111826045.png)
-
----
-
-## Plan for Next Week
-- Finalize sensor data pipelines to the web UI.
-- Test performance optimization between CPU software rendering and hardware acceleration.
-- Implement additional exercises using the custom `f1` robot.
+![Method 3 - Running Robot Simulation](/assets/img/week2/method3.png)
