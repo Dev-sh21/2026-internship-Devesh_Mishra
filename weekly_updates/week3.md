@@ -63,7 +63,7 @@ When running Gazebo and ROS 2 natively on macOS, the camera visualization failed
 * **Method 2 (Source build):** Dynamic library loading paths collided between environments, causing symbol resolution errors and crashes.
 * **DDS Discovery:** macOS local firewall settings blocked loopback UDP multicast discovery between terminal tabs.
 
-![RViz No Image Error](/assets/img/posts/rviz_error.png)
+![RViz No Image Error](../docs/assets/img/posts/rviz_error.png)
 *Figure: RViz2 displaying "No Image" due to version mismatch and paused simulation.*
 
 ### The Resolution: Docker VNC Container
