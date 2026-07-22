@@ -52,3 +52,28 @@ To test VNC functionality independently of the Robotics Academy framework, I set
 
 ### Video Documentation:
 * Watch the VNC server connection and client testing: [Watch Video](https://youtu.be/3hWCTyUlOGc)
+
+---
+
+## 4. Connecting RViz2 Camera Feed in Docker VNC
+
+During integration of the camera sensor with RViz2, we resolved major platform issues when attempting to route sensor data between ROS 2 Humble and Gazebo.
+
+### The Problem: macOS Native DDS & Version Mismatches
+When running Gazebo and ROS 2 natively on macOS, the camera visualization failed (showing "No Image"):
+* **Method 1 (Homebrew package):** Mismatch between the legacy Ignition Fortress bridge packages in Conda and the newer Gazebo Harmonic package in Homebrew.
+* **Method 2 (Source build):** Dynamic library loading paths collided between environments, causing symbol resolution errors and crashes.
+* **DDS Discovery:** macOS local firewall settings blocked loopback UDP multicast discovery between terminal tabs.
+
+![RViz No Image Error](/assets/img/posts/rviz_error.png)
+*Figure: RViz2 displaying "No Image" due to version mismatch and paused simulation.*
+
+### The Resolution: Docker VNC Container
+We resolved these constraints by moving the simulation environment to a unified Docker VNC container:
+* **Version Locking:** Locked all packages (Gazebo Sim, bridge, and RViz2) to the matching Ignition Fortress stack.
+* **Permission Sync:** Ran all nodes under the same `ubuntu` user workspace to allow seamless ROS 2 DDS discovery.
+* **Automated Setup:** Loaded RViz2 automatically with a custom `camera_test.rviz` configuration file.
+* **Simulation Unpause:** Triggered play commands to unpause simulation physics, successfully enabling active OpenGL rendering.
+
+### Video Documentation (Working Demo):
+* Watch the working camera feed and obstacle avoidance simulation in RViz2: [Watch Video](https://youtu.be/ZueY666MB80)
