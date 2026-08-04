@@ -6,29 +6,33 @@ tags: [internship, progress, week-5, gazebo, ros2, vnc, nav2, bugs]
 published: true
 ---
 
-This week, my work focused on integrating the ROS 2 Humble Navigation Stack (Nav2) with the Global Navigation exercise in JdeRobot's RoboticsAcademy. However, we are currently facing major blockages that prevent the simulation from rendering.
+This week, my progress was aligned with **Task 3: Play with a Nav-2 based solution for the Global Navigation exercise of RoboticsAcademy (using standard global navigation algorithms included in Nav2 instead of the custom GPP algorithm).**
+
+Here is the progress detailing how we implemented Nav2 and the current blockages encountered:
 
 ---
 
-## 1. ROS 2 Humble Nav2 Integration Work
+## 1. Implementing Nav2-based Solution for Global Navigation (Task 3)
 
-We configured the baseline packages for the Nav2-based path planning:
-* **Static Map Configuration:** Created `cityLargenBin.yaml` to map the city world at a resolution of `1.25` meters per pixel.
-* **Tuning costmaps:** Configured the planner and controller servers in `nav2_params.yaml`.
-* **GUI Bridge:** Wrote a Python bridge (`nav2_bridge.py`) to connect WebGUI websocket messages with ROS2 Nav2 standard topics.
+Instead of implementing a custom GPP path-planning algorithm, we worked on utilizing standard ROS 2 Humble Navigation Stack (Nav2) packages:
+
+* **Static Map Configuration:** Created `cityLargenBin.yaml` to map the $500\text{m} \times 500\text{m}$ Gazebo city world coordinates to standard ROS 2 occupancy grid metrics (at `1.25` meters per pixel). This enables standard Nav2 map servers to feed the costmap.
+* **Costmap and Nav2 Parameters:** Configured `planner_server` (using standard `NavfnPlanner` global path planner) and `controller_server` (using `RegulatedPurePursuitController` local tracker) inside `nav2_params.yaml`. Static costmaps were tuned to run without LiDAR sensor dependencies.
+* **Bridge Interface (`nav2_bridge.py`):** Developed a ROS 2 bridge node to translate JdeRobot's WebGUI mouse click coordinates to standard `/goal_pose` topics and publish the resulting Nav2 planned paths back to the user GUI canvas.
+* **Unified Launch Integration:** Combined the Gazebo world server, robot spawner, static transforms, map server, Nav2 planners, and the GUI bridge into a single executable launch file `global_navigation_nav2.launch.py` linked natively to the database.
 
 ---
 
-## 2. Ongoing Issues & Blockages (Not Fixed Yet)
+## 2. Current Blockages & Unresolved Issues
 
-We are currently blocked by the following unresolved bugs:
+We are currently blocked by the following errors, preventing final verification of the Nav2 navigation loops:
 
-* **VNC Black Screen rendering crash (UNRESOLVED):**
-  The VNC desktop screen (display `:2` and display `:1`) remains completely black. The Gazebo GUI client fails to render its main window, likely due to Mesa/OpenGL software rendering compiler failures or driver incompatibilities under Rosetta 2 emulation on Apple Silicon macOS host.
+* **VNC Black Screen (UNRESOLVED):**
+  The VNC desktop screen (displays `:1` and `:2`) remains completely black. The Gazebo GUI client fails to create its main rendering window, caused by Mesa software OpenGL emulation rendering bugs under Rosetta 2 translator on ARM64 macOS host.
 * **Costmap TF Timeout Warnings:**
-  The `controller_server` prints recurring errors: `Timed out waiting for transform from base_link to map to become available, tf error: Could not find a connection because they are not part of the same tree.` This occurs because odometry is not published, as the simulation remains paused or the robot spawner transforms are unconnected.
-* **Nav2 Parameters Typos & Crashes:**
-  While the parameter syntax changes (changing `/` to `::` for controllers and fixing `plugin_lib_names`) were applied, we cannot verify their correctness because the overall simulator remains frozen.
+  The costmap server throws continuous warnings: `Timed out waiting for transform from base_link to map to become available...` because odometry is not published while the simulation physics is paused or the vehicle description joints are disconnected.
+* **Verification Blocked:**
+  Because the simulation frontend and window manager rendering is black, we cannot visually verify if the Nav2 planner successfully drives the taxi vehicle to the selected target.
 
 ---
 
