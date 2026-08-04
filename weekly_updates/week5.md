@@ -34,12 +34,7 @@ We are currently blocked by the following errors, preventing final verification 
 
 ---
 
-## 3. Visual Verification of the Error
-
-The following screenshot shows the active black screen error inside the VNC desktop display:
-
-![VNC Black Screen Error](../docs/assets/img/posts/global_navigation_vnc.png)
-*Figure: The VNC desktop display output showing the persistent black screen blockage.*
+## 3. Visual Verification
 
 Below is the static city occupancy grid map used for costmap planning:
 
