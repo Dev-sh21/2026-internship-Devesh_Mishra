@@ -36,7 +36,7 @@ I resolved multiple system-level blockages to stabilize the containerized execut
 
 The simulation, spawner, and GUI clients are verified running side-by-side inside the container VNC desktop. 
 
-![Working Global Navigation inside VNC](../docs/assets/img/posts/global_navigation_vnc.png)
+![Working Global Navigation inside VNC](../docs/assets/img/posts/global_navigation_vnc.jpg)
 *Figure: VNC Desktop environment showing Gazebo GUI simulation, RViz2 camera and map visualizers, and the spawned autonomous vehicle.*
 
 Below is the static city occupancy grid map used for costmap planning:
