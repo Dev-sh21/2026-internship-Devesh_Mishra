@@ -4,13 +4,13 @@ title: "Internship Progress Week 5"
 permalink: /weekly-updates/week5/
 ---
 
-This week, my progress was aligned with **Task 3: Play with a Nav-2 based solution for the Global Navigation exercise of RoboticsAcademy (using standard global navigation algorithms included in Nav2 instead of the custom GPP algorithm).**
+This week, my progress focused on developing a Nav2-based path planning and tracking solution for the Global Navigation exercise in RoboticsAcademy, utilizing standard global navigation algorithms already included in Nav2 instead of the custom GPP algorithm.
 
 Here is the progress detailing how we implemented Nav2 and the current blockages encountered:
 
 ---
 
-## 1. Implementing Nav2-based Solution for Global Navigation (Task 3)
+## 1. Implementing Nav2-based Solution for Global Navigation
 
 Instead of implementing a custom GPP path-planning algorithm, we worked on utilizing standard ROS 2 Humble Navigation Stack (Nav2) packages:
 
