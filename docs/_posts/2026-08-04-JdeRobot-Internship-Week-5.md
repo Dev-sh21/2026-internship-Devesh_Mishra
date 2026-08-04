@@ -1,6 +1,6 @@
 ---
 title: "Internship Progress Week 5 (July 30 ~ August 05)"
-date: 2026-08-05 08:00:00 +0530
+date: 2026-08-04 08:00:00 +0530
 categories: [Internship 2026, Progress]
 tags: [internship, progress, week-5, gazebo, ros2, vnc, nav2, bugs]
 published: true
