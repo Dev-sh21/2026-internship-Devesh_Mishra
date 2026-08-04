@@ -4,40 +4,38 @@ title: "Internship Progress Week 5"
 permalink: /weekly-updates/week5/
 ---
 
-This week, my work focused on fully integrating the ROS 2 Humble Navigation Stack (Nav2) with the Global Navigation exercise in JdeRobot's RoboticsAcademy. I resolved several critical platform and syntax errors, tuned the planners, and enabled native web VNC rendering on Apple Silicon macOS hosts.
+This week, my work focused on integrating the ROS 2 Humble Navigation Stack (Nav2) with the Global Navigation exercise in JdeRobot's RoboticsAcademy. However, we are currently facing major blockages that prevent the simulation from rendering.
 
 ---
 
-## 1. ROS 2 Humble Nav2 Integration for Global Navigation
+## 1. ROS 2 Humble Nav2 Integration Work
 
-I replaced the standard hardcoded navigation templates with a fully autonomous, production-ready path planning and tracking system using standard ROS 2 Nav2:
-
-* **Static Map Configuration:** Created `cityLargenBin.yaml` mapping the $500\text{m} \times 500\text{m}$ Gazebo basic city world. It maps raw map pixels to real-world coordinates with a resolution of `1.25` meters per pixel.
-* **Tuning Planners & Controllers:** Tuned the Nav2 stack (`planner_server` and `controller_server` with `RegulatedPurePursuitController`). Static global and local costmaps were configured to handle path planning without requiring a LiDAR range sensor.
-* **GUI-to-ROS2 Bridge:** Wrote a Python bridge node (`nav2_bridge.py`) that translates canvas click coordinates on the JdeRobot frontend to standard ROS 2 `/goal_pose` messages, and publishes Nav2 paths back to the GUI `/webgui/path` topic.
-* **Native Database Mapping:** Updated the local Django database (`universe_db` postgres table) to map the `City Large` world ID natively to our consolidated `global_navigation_nav2.launch.py` launch file.
+We configured the baseline packages for the Nav2-based path planning:
+* **Static Map Configuration:** Created `cityLargenBin.yaml` to map the city world at a resolution of `1.25` meters per pixel.
+* **Tuning costmaps:** Configured the planner and controller servers in `nav2_params.yaml`.
+* **GUI Bridge:** Wrote a Python bridge (`nav2_bridge.py`) to connect WebGUI websocket messages with ROS2 Nav2 standard topics.
 
 ---
 
-## 2. Issues Encountered & Solutions
+## 2. Ongoing Issues & Blockages (Not Fixed Yet)
 
-I resolved multiple system-level blockages to stabilize the containerized execution environment:
+We are currently blocked by the following unresolved bugs:
 
-* **VNC Screen Rendering Crash (Black Screen on Mac):**
-  Running the x86 container under Rosetta 2 emulation on macOS Apple Silicon crashed the default software OpenGL renderer (`llvmpipe`), turning the VNC screen black. Enforced `GALLIUM_DRIVER=softpipe` and `LIBGL_ALWAYS_SOFTWARE=1` environment variables inside `dev_humble_cpu.yaml` to route graphics through stable softpipe emulation.
-* **Nav2 Controller Class Separator Error:**
-  The controller failed to load because the plugin declaration used a slash separator `/`. Changing it to double-colons `::` (`nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController`) successfully resolved the plugin registration lookup.
-* **bt_navigator Missing Library Crash:**
-  The behavior tree node crashed searching for a non-existent `nav2_goal_checker_bt_node`. Correcting the typo to `nav2_goal_checker_selector_bt_node` inside `nav2_params.yaml` allowed the Nav2 behavior tree parser to boot cleanly.
+* **VNC Black Screen rendering crash (UNRESOLVED):**
+  The VNC desktop screen (display `:2` and display `:1`) remains completely black. The Gazebo GUI client fails to render its main window, likely due to Mesa/OpenGL software rendering compiler failures or driver incompatibilities under Rosetta 2 emulation on Apple Silicon macOS host.
+* **Costmap TF Timeout Warnings:**
+  The `controller_server` prints recurring errors: `Timed out waiting for transform from base_link to map to become available, tf error: Could not find a connection because they are not part of the same tree.` This occurs because odometry is not published, as the simulation remains paused or the robot spawner transforms are unconnected.
+* **Nav2 Parameters Typos & Crashes:**
+  While the parameter syntax changes (changing `/` to `::` for controllers and fixing `plugin_lib_names`) were applied, we cannot verify their correctness because the overall simulator remains frozen.
 
 ---
 
-## 3. Visual Verification
+## 3. Visual Verification of the Error
 
-The simulation, spawner, and GUI clients are verified running side-by-side inside the container VNC desktop. 
+The following screenshot shows the active black screen error inside the VNC desktop display:
 
-![Working Global Navigation inside VNC](../docs/assets/img/posts/global_navigation_vnc.jpg)
-*Figure: VNC Desktop environment showing Gazebo GUI simulation, RViz2 camera and map visualizers, and the spawned autonomous vehicle.*
+![VNC Black Screen Error](../docs/assets/img/posts/global_navigation_vnc.png)
+*Figure: The VNC desktop display output showing the persistent black screen blockage.*
 
 Below is the static city occupancy grid map used for costmap planning:
 
