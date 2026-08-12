@@ -1,8 +1,8 @@
 ---
-title: "Internship Progress Week 6 (August 06 ~ August 11)"
+title: "Internship Progress Week 6 (August 06 ~ August 12)"
 date: 2026-08-11 08:00:00 +0530
 categories: [Internship 2026, Progress]
-tags: [internship, progress, week-6, gazebo, vnc, macos, docker, x11]
+tags: [internship, progress, week-6, gazebo, vnc, macos, docker, x11, ogre]
 published: true
 ---
 
@@ -40,13 +40,81 @@ The technical limitations of native macOS host VNC capture were documented in `t
 To replicate the manual setup inside the RADI Docker container (`developer-container`) using a Linux X11 display architecture (`Xvfb`), TurboVNC (`openbox`), and noVNC web proxy.
 
 ### Execution & Pipeline Verification
-Inside the container, `Xvfb :2`, TurboVNC (`TVNC_WM=openbox`), and the `noVNC` proxy (listening on port 6080) were initialized manually.
+Inside the container, `Xvfb :1`, TurboVNC (`TVNC_WM=openbox`), and the `noVNC` proxy (listening on port 6080) were initialized manually.
 
 To verify whether the display, window manager, and WebSocket proxy pipeline functioned correctly prior to running 3D simulation GUI clients, a standard 2D X11 application (`xclock`) was executed inside the container display environment.
 
 ![noVNC Pipeline Verification with 2D Application](/assets/img/posts/vnc_pipeline_verification.png)
 *Figure 2: Live streaming verification of container VNC pipeline displaying 2D X11 window on http://localhost:6080/vnc.html.*
 
-### Findings & Analysis
-* **VNC & Web Streaming Operational:** As shown in Figure 2, `noVNC` successfully connected and rendered the live 2D window (`xclock`) inside the browser on port 6080. This confirmed that the virtual display, Openbox window manager, TurboVNC server, and noVNC proxy pipeline are fully functional.
-* **Gazebo 3D GUI Rendering Behavior:** While 2D applications render and stream without issues, Gazebo Sim 8 GUI relies on OGRE 2 (`ogre2`), which requires hardware OpenGL 4.3+ GPU acceleration (`/dev/dri`). Running x86_64 Docker containers on Apple Silicon Macs via Rosetta 2 CPU software emulation (`softpipe`) prevents OGRE 2 framebuffer initialization, causing the Gazebo GUI rendering thread to wait during startup.
+### Video Demonstration
+A live demonstration recording of the container VNC pipeline and visualizer testing is available here:
+[Watch Demonstration Video on YouTube](https://youtu.be/yf_2MWdrcUU)
+
+---
+
+## 3. Testing OGRE 1 Rendering Engine (`--render-engine ogre`)
+
+### Objective
+To test launching Gazebo Harmonic with the `--render-engine ogre` flag (OGRE 1 rendering engine) as suggested by mentor Jose Maria Plaza, evaluating if forcing OGRE 1 resolves the 3D GUI rendering window on macOS Docker emulation.
+
+### Execution & Observations
+Inside the container, `shapes.sdf` was launched with OGRE 1 rendering:
+```bash
+gz sim -v 4 shapes.sdf --render-engine ogre
+```
+
+![Gazebo OGRE 1 Terminal Execution Log](/assets/img/posts/gz_ogre1_terminal_log.png)
+*Figure 3: Terminal execution log showing physics server initialization and world loading with --render-engine ogre.*
+
+![noVNC Browser Output for OGRE 1 Render Engine](/assets/img/posts/gz_ogre1_black_screen.png)
+*Figure 4: Resulting noVNC browser view (http://localhost:6080/vnc.html) showing unmapped black screen for Gazebo GUI.*
+
+### Analysis & Findings
+* **Server Initialization:** As shown in Figure 3, the Gazebo physics server (`gz sim -s`) loads the SDF world file (`shapes.sdf`), initializes entity systems, and broadcasts scene updates without issues.
+* **GUI Client Behavior:** As shown in Figure 4, while `noVNC` connects cleanly, the standalone Gazebo GUI client (`gz sim -g`) QML 3D window fails to map on the X11 display.
+* **Root Cause:** Gazebo Sim 8 GUI (both OGRE 1 and OGRE 2) initializes Qt5 QML / QtQuick OpenGL SceneGraph contexts. Under Rosetta 2 translation (`--platform linux/amd64` on Apple Silicon Macs), Mesa falls back to CPU software rendering (`softpipe`), which fails to map Qt QML 3D offscreen framebuffers.
+
+---
+
+## 4. Comprehensive Test Results Summary
+
+Below is the line-by-line summary of all component tests executed during this investigation:
+
+* **Native Mac VNC (`x11vnc` - Task 1):**
+  * Environment: Native macOS Host Machine
+  * Status: Failed
+  * Observation: Screen capture returns `w: 0 h: 0` because Apple deprecated `CGDisplayBaseAddress` in macOS Sonoma/Sequoia and native Mac Gazebo Qt builds lack the X11 `xcb` plugin.
+
+* **noVNC Web Streaming Pipeline (Task 2):**
+  * Environment: RADI Docker Container (`linux/amd64`)
+  * Status: 100% Working
+  * Observation: 2D applications like `xclock` render and stream live in the browser at `http://localhost:6080/vnc.html`, proving the virtual display and web proxy pipeline is completely functional.
+
+* **`glxgears` (3D OpenGL Rotating Gears):**
+  * Environment: RADI Docker Container (`linux/amd64`)
+  * Status: 100% Working (300+ FPS)
+  * Observation: Renders 3D rotating red/green/blue gears smoothly over VNC at 302 FPS, proving that the container VNC display server can handle OpenGL 3D windows.
+
+* **`RViz2` 3D Visualizer (OGRE 1):**
+  * Environment: RADI Docker Container (`linux/amd64`)
+  * Status: 100% Working
+  * Observation: Successfully initializes and renders a full 1200x846 3D scene viewport over noVNC without any black screen, because RViz2 uses classic Qt5 QWidgets instead of QML.
+
+* **Gazebo Sim 8 GUI (Default OGRE 2):**
+  * Environment: RADI Docker Container (`linux/amd64`)
+  * Status: Failed (Black Screen)
+  * Observation: The physics server works 100%, but the 3D GUI rendering thread freezes while initializing OGRE 2 render targets under Rosetta 2 CPU software rendering (`softpipe`).
+
+* **Gazebo Sim 8 GUI with OGRE 1 (`--render-engine ogre`):**
+  * Environment: RADI Docker Container (`linux/amd64`)
+  * Status: Failed (Black Screen)
+  * Observation: The physics server loads `shapes.sdf` cleanly, but the GUI client (`gz sim -g`) hangs because Qt5 QML OpenGL SceneGraph contexts fail to map under Rosetta 2 translation (`softpipe`).
+
+---
+
+## 5. Architectural Root Cause & Recommended Solution
+
+* **Architecture Bottleneck:** RADI is currently running under `--platform linux/amd64` (x86_64 architecture). On Apple Silicon Macs, Docker Desktop executes x86 binaries via Rosetta 2 translation, which disables GPU passthrough (`/dev/dri`) and forces Mesa to use CPU software rendering (`softpipe`).
+* **Framework Contrast:** Classic Qt5 Widget applications (`glxgears` and `RViz2`) work under `softpipe`, whereas Qt5 QML / QtQuick applications (Gazebo Sim GUI) fail to create 3D framebuffers under `softpipe`.
+* **Recommended Fix:** Rebuilding and releasing RADI as a native `linux/arm64` Multi-Arch Docker container. In a native `linux/arm64` container on Apple Silicon Macs, Mesa uses `llvmpipe` (LLVM CPU software renderer), which implements modern OpenGL specifications completely and renders Gazebo 3D GUI without black screens.
