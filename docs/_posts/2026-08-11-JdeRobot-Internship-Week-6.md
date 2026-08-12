@@ -47,13 +47,19 @@ To verify whether the display, window manager, and WebSocket proxy pipeline func
 ![noVNC Pipeline Verification with 2D Application](/assets/img/posts/vnc_pipeline_verification.png)
 *Figure 2: Live streaming verification of container VNC pipeline displaying 2D X11 window on http://localhost:6080/vnc.html.*
 
-### Video Demonstration
-A live demonstration recording of the container VNC pipeline and visualizer testing is available here:
-[Watch Demonstration Video on YouTube](https://youtu.be/yf_2MWdrcUU)
+---
+
+## 3. 3D OpenGL Pipeline Testing (`glxgears`)
+
+To verify that the container VNC display server can handle 3D OpenGL window rendering, `glxgears` was executed inside the container environment on display `:1`.
+
+* **Result:** `glxgears` rendered 3D rotating gears smoothly over VNC at 300+ FPS on `http://localhost:6080/vnc.html`.
+* **Video Demonstration:** A live video recording demonstrating `glxgears` rendering smoothly over the VNC pipeline is available here:
+  [Watch glxgears 3D Rendering Video on YouTube](https://youtu.be/yf_2MWdrcUU)
 
 ---
 
-## 3. Testing OGRE 1 Rendering Engine (`--render-engine ogre`)
+## 4. Testing OGRE 1 Rendering Engine (`--render-engine ogre`)
 
 ### Objective
 To test launching Gazebo Harmonic with the `--render-engine ogre` flag (OGRE 1 rendering engine) to evaluate if forcing OGRE 1 resolves the 3D GUI rendering window on macOS Docker emulation.
@@ -77,7 +83,7 @@ gz sim -v 4 shapes.sdf --render-engine ogre
 
 ---
 
-## 4. Comprehensive Test Results Summary
+## 5. Comprehensive Test Results Summary
 
 Below is the line-by-line summary of all component tests executed during this investigation:
 
