@@ -56,7 +56,7 @@ A live demonstration recording of the container VNC pipeline and visualizer test
 ## 3. Testing OGRE 1 Rendering Engine (`--render-engine ogre`)
 
 ### Objective
-To test launching Gazebo Harmonic with the `--render-engine ogre` flag (OGRE 1 rendering engine) as suggested by mentor Jose Maria Plaza, evaluating if forcing OGRE 1 resolves the 3D GUI rendering window on macOS Docker emulation.
+To test launching Gazebo Harmonic with the `--render-engine ogre` flag (OGRE 1 rendering engine) to evaluate if forcing OGRE 1 resolves the 3D GUI rendering window on macOS Docker emulation.
 
 ### Execution & Observations
 Inside the container, `shapes.sdf` was launched with OGRE 1 rendering:
@@ -110,11 +110,3 @@ Below is the line-by-line summary of all component tests executed during this in
   * Environment: RADI Docker Container (`linux/amd64`)
   * Status: Failed (Black Screen)
   * Observation: The physics server loads `shapes.sdf` cleanly, but the GUI client (`gz sim -g`) hangs because Qt5 QML OpenGL SceneGraph contexts fail to map under Rosetta 2 translation (`softpipe`).
-
----
-
-## 5. Architectural Root Cause & Recommended Solution
-
-* **Architecture Bottleneck:** RADI is currently running under `--platform linux/amd64` (x86_64 architecture). On Apple Silicon Macs, Docker Desktop executes x86 binaries via Rosetta 2 translation, which disables GPU passthrough (`/dev/dri`) and forces Mesa to use CPU software rendering (`softpipe`).
-* **Framework Contrast:** Classic Qt5 Widget applications (`glxgears` and `RViz2`) work under `softpipe`, whereas Qt5 QML / QtQuick applications (Gazebo Sim GUI) fail to create 3D framebuffers under `softpipe`.
-* **Recommended Fix:** Rebuilding and releasing RADI as a native `linux/arm64` Multi-Arch Docker container. In a native `linux/arm64` container on Apple Silicon Macs, Mesa uses `llvmpipe` (LLVM CPU software renderer), which implements modern OpenGL specifications completely and renders Gazebo 3D GUI without black screens.
