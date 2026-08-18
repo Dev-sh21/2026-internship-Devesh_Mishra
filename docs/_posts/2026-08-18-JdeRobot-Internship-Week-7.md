@@ -34,11 +34,9 @@ To evaluate the simulation of a mobile robot equipped with an Onboard Camera, 2D
 4. **Rigid Collision Boundary:** Verified rigid physical collision stopping at the obstacle boundary ($X \approx 4.15\text{ m}$, bumper distance $= 0.00\text{ m}$), preventing mesh penetration.
 
 ### Video Demonstration
-The full multi-sensor simulation test, actuation response, and camera perspective scaling can be viewed below:
+Watch the live demonstration of the multi-sensor validation directly below:
 
-[![Task 1 Part A: Headless Simulation Server with RViz2 Validation](https://img.youtube.com/vi/N-JlsCwEfZE/hqdefault.jpg)](https://youtu.be/N-JlsCwEfZE)
-
-*Video 1: Demonstration of Headless Simulation Server with RViz2 Multi-Sensor Validation on macOS.*
+<iframe width="100%" height="450" src="https://www.youtube-nocookie.com/embed/N-JlsCwEfZE" title="Task 1 Part A: Headless Simulation Server with RViz2 Validation" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 8px; margin-top: 10px; margin-bottom: 20px;"></iframe>
 
 ---
 
@@ -70,11 +68,9 @@ To evaluate the standalone Gazebo Sim 8 GUI viewer client with the OGRE renderin
 * **Root Cause Analysis:** Due to architectural constraints of software OpenGL emulation (`llvmpipe`) under Rosetta 2 x86 translation on Apple Silicon, the QtQuick 3D viewport fails to composite core profile shaders, resulting in an unrendered canvas.
 
 ### Video Demonstration
-The standalone Gazebo server and OGRE GUI viewer execution test can be viewed below:
+Watch the live standalone Gazebo server and OGRE GUI viewer execution test directly below:
 
-[![Task 1 Part B: Gazebo Standalone OGRE GUI Evaluation](https://img.youtube.com/vi/Hg59doWXcec/hqdefault.jpg)](https://youtu.be/Hg59doWXcec)
-
-*Video 2: Demonstration of Standalone Gazebo GUI Viewer Execution with OGRE Engine on macOS.*
+<iframe width="100%" height="450" src="https://www.youtube-nocookie.com/embed/Hg59doWXcec" title="Task 1 Part B: Gazebo Standalone OGRE GUI Evaluation" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius: 8px; margin-top: 10px; margin-bottom: 20px;"></iframe>
 
 ---
 

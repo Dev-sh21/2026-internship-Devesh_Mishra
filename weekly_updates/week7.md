@@ -12,12 +12,18 @@ This week, progress focused on executing and validating **Task 1** under mentor 
 * Validated real-time optical perspective rendering on `/camera/image_raw` with live Telemetry HUD overlay.
 * Validated planar laser raycast shortening on `/scan` and displacement tracking on `/odom`.
 * Validated rigid body collision stopping at obstacle boundary ($X \approx 4.15\text{ m}$).
-* Recorded and uploaded video demonstration: [Watch Part A Video on YouTube](https://youtu.be/N-JlsCwEfZE).
+
+#### Video Demonstration (Part A):
+[![Task 1 Part A: Headless Simulation Server with RViz2 Validation](https://img.youtube.com/vi/N-JlsCwEfZE/hqdefault.jpg)](https://www.youtube.com/watch?v=N-JlsCwEfZE)
+
+---
 
 ### Task 1 (Part B): Standalone Gazebo GUI Viewer Evaluation (`--render-engine ogre`)
 * Tested headless server (`gz sim -s -v 4 shapes.sdf`) alongside standalone GUI viewer (`gz sim -g -v 4 --render-engine ogre`) with explicit virtual display variables (`export DISPLAY=:1`, `export LIBGL_ALWAYS_SOFTWARE=1`).
 * Documented findings: Headless server runs physics without error; standalone QtQuick/QML GUI fails to composite OpenGL 3.3 Core profile shaders under macOS Rosetta 2 software OpenGL (`llvmpipe`).
-* Recorded and uploaded video demonstration: [Watch Part B Video on YouTube](https://youtu.be/Hg59doWXcec).
+
+#### Video Demonstration (Part B):
+[![Task 1 Part B: Gazebo Standalone OGRE GUI Evaluation](https://img.youtube.com/vi/Hg59doWXcec/hqdefault.jpg)](https://www.youtube.com/watch?v=Hg59doWXcec)
 
 ---
 
