@@ -14,7 +14,11 @@ This week, progress focused on executing and validating **Task 1** under mentor 
 * Validated rigid body collision stopping at obstacle boundary ($X \approx 4.15\text{ m}$).
 
 #### Video Demonstration (Part A):
-[![Task 1 Part A: Headless Simulation Server with RViz2 Validation](https://img.youtube.com/vi/N-JlsCwEfZE/hqdefault.jpg)](https://www.youtube.com/watch?v=N-JlsCwEfZE)
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=N-JlsCwEfZE">
+    <img src="https://img.youtube.com/vi/N-JlsCwEfZE/maxresdefault.jpg" alt="Task 1 Part A: Headless Simulation Server with RViz2 Validation" width="90%" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+  </a>
+</p>
 
 ---
 
@@ -23,7 +27,11 @@ This week, progress focused on executing and validating **Task 1** under mentor 
 * Documented findings: Headless server runs physics without error; standalone QtQuick/QML GUI fails to composite OpenGL 3.3 Core profile shaders under macOS Rosetta 2 software OpenGL (`llvmpipe`).
 
 #### Video Demonstration (Part B):
-[![Task 1 Part B: Gazebo Standalone OGRE GUI Evaluation](https://img.youtube.com/vi/Hg59doWXcec/hqdefault.jpg)](https://www.youtube.com/watch?v=Hg59doWXcec)
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=Hg59doWXcec">
+    <img src="https://img.youtube.com/vi/Hg59doWXcec/maxresdefault.jpg" alt="Task 1 Part B: Gazebo Standalone OGRE GUI Evaluation" width="90%" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+  </a>
+</p>
 
 ---
 
