@@ -14,7 +14,7 @@ In this work, we explored, built, and validated a native ARM64 stack running **R
 
 Watch the complete demonstration of the F1 car running autonomously in the Gazebo Jetty simulation on macOS:
 
-<iframe width="100%" height="450" src="https://www.youtube.com/embed/JQ7gxN86NEs" title="JdeRobot Robotics Academy - Follow Line (ROS 2 Jazzy + Gazebo Jetty)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![Autonomous Follow Line](https://img.youtube.com/vi/JQ7gxN86NEs/0.jpg)](https://www.youtube.com/watch?v=JQ7gxN86NEs)
 
 ---
 
