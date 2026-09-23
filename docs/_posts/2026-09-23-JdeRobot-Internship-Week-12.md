@@ -2,7 +2,7 @@
 title: "Internship Progress Week 12 (September 17 ~ September 23)"
 date: 2026-09-23 18:00:00 +0530
 categories: [Internship 2026, Progress]
-tags: [internship, progress, week-12, ros2, jazzy, jderobot, gazebo, harmonic, jetty, amazon-warehouse, nav2]
+tags: [internship, progress, week-12, ros2, jazzy, jderobot, gazebo, jetty, amazon-warehouse, nav2]
 published: true
 ---
 
@@ -14,7 +14,7 @@ This week, we focused on testing and extending the cross-platform capabilities o
 
 ## 1. Testing and Validating ROS 2 Jazzy
 
-We began by testing our updated environment running **ROS 2 Jazzy Jalisco**. All primary subsystems—including workspace compilation, node execution, and bridging with the new Gazebo Harmonic / Jetty environment—passed validation without requiring Rosetta 2 translation.
+We began by testing our updated environment running **ROS 2 Jazzy Jalisco**. All primary subsystems—including workspace compilation, node execution, and bridging with the new Gazebo Jetty environment—passed validation without requiring Rosetta 2 translation.
 
 ---
 
@@ -28,8 +28,8 @@ Initially, the objective was targeted towards running the exercise through the *
 To achieve full autonomy while honoring the container environment, we developed an autonomous navigation and task execution state machine using odometry feedback and velocity commands.
 
 ### Resolving Backend Template Bugs
-During testing, we discovered two major bugs in the upstream `HAL.py` and `WebGUI.py` templates for Gazebo Harmonic:
-1. **Namespace Mismatch:** The default templates attempted to publish and subscribe under the `/amazon_robot/` namespace (e.g., `/amazon_robot/odom` and `/amazon_robot/cmd_vel`). In Gazebo Harmonic, the active robot entity publishes under `/logistic_robot/`.
+During testing, we discovered two major bugs in the upstream `HAL.py` and `WebGUI.py` templates for Gazebo Jetty:
+1. **Namespace Mismatch:** The default templates attempted to publish and subscribe under the `/amazon_robot/` namespace (e.g., `/amazon_robot/odom` and `/amazon_robot/cmd_vel`). In Gazebo Jetty, the active robot entity publishes under `/logistic_robot/`.
 2. **Platform Actuator Topic Bug:** The pallet lift function published to `/platform/cmd_vel`, whereas the simulator listens on `/logistic_robot/platform/cmd_vel`.
 3. **Map Display Synchronization:** The web map viewer was bound to the legacy odometry topic, preventing the position indicator (red marker) from updating.
 

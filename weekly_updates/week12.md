@@ -18,8 +18,8 @@ Following the success of ROS 2 Jazzy, we focused on the **Amazon Warehouse** exe
 Initially, there was an assumption that navigation should be handled entirely by the **Nav2 (Navigation2)** stack, using Action Clients to send goal poses (like RViz's 2D Goal Pose). However, the core learning objective of the Amazon Warehouse exercise in Robotics Academy is to teach students underlying robotics math (such as A* Path Planning and PID/Bug control). Therefore, the backend does not spawn the full Nav2 stack (map_server, amcl, bt_navigator). We adapted our approach to implement an autonomous, sensor-based navigation script instead.
 
 ### Fixing Backend Template Bugs
-During testing, we discovered two critical bugs in the provided `HAL.py` and `WebGUI.py` templates for Gazebo Harmonic (Jetty):
-1. **Robot Namespace Mismatch:** The templates were hardcoded to listen and publish to `/amazon_robot/odom` and `/amazon_robot/cmd_vel`. However, the robot spawned in the Gazebo Harmonic world is actually named `logistic_robot`.
+During testing, we discovered two critical bugs in the provided `HAL.py` and `WebGUI.py` templates for Gazebo Jetty:
+1. **Robot Namespace Mismatch:** The templates were hardcoded to listen and publish to `/amazon_robot/odom` and `/amazon_robot/cmd_vel`. However, the robot spawned in the Gazebo Jetty world is actually named `logistic_robot`.
 2. **Platform Lift Bug:** The pallet-lifting mechanism published commands to `/platform/cmd_vel`, but the correct simulation topic is `/logistic_robot/platform/cmd_vel`.
 
 We applied dynamic monkey-patches in our control script to force the `MotorsNode` and `OdometryNode` to connect to `/logistic_robot`. This immediately fixed the robot's movement and correctly updated the red tracker dot on the WebGUI map.
@@ -37,7 +37,7 @@ Check out the robot autonomously navigating the Amazon Warehouse and picking up 
 [![Amazon Warehouse Nav2](https://img.youtube.com/vi/JP5-pee_yoE/0.jpg)](https://www.youtube.com/watch?v=JP5-pee_yoE)
 
 ### Simulation Screenshots
-*Navigating the Amazon Warehouse using ROS 2 Jazzy and Gazebo Harmonic:*
+*Navigating the Amazon Warehouse using ROS 2 Jazzy and Gazebo Jetty:*
 
 ![Amazon Warehouse Setup 1](../docs/assets/img/posts/amazonWarehouse_1.png)
 
