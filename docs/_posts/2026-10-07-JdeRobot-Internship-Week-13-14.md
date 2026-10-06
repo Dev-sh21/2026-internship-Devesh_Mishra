@@ -1,6 +1,6 @@
 ---
 title: "Internship Progress Weeks 13 & 14 (September 24 ~ October 07)"
-date: 2026-10-07 10:00:00 +0530
+date: 2026-10-07 01:00:00 +0530
 categories: [Internship 2026, Progress]
 tags: [internship, progress, week-13, week-14, ros2, nav2, gazebo, harmonic, radi, lyrical-beta, line-following, amazon-warehouse]
 published: true
